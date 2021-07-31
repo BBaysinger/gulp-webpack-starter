@@ -1,4 +1,4 @@
-Forked by BBaysinger mostly just to updated dependencies and audit security issues.
+Forked by BBaysinger mostly just to update dependencies and audit security issues.
 
 <p align="center">
 	<img height="257" width="114" src="https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png">
