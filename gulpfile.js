@@ -20,7 +20,6 @@ var gulp = require('gulp');
 * - webpack-stream (adding webpack tehnology)
 * - webpackconfig (webpack file with configuration)
 */
-const babel			= require('gulp-babel');
 const plumber		= require('gulp-plumber');
 const concat		= require('gulp-concat');
 const dartSass		= require('sass');
@@ -37,9 +36,7 @@ const browserSync	= require('browser-sync').create();
 const webpack 		= require('webpack-stream');
 const webpackconfig	= require('./webpack.config.js');
 
-//Set sass compiler
-// sass.compiler = require('node-sass');
-
+//Set sass compiler. TODO: Use Node-SASS (faster)
 const sass = gulpSass( dartSass );
 
 //Task script
@@ -116,7 +113,7 @@ gulp.task('clean', function(){
 	return del('dist/**', {force:true});
 });
 
-//Clean dist task
+//Clean 'dist' task
 gulp.task('gulp:clean', gulp.series(['clean']));
 
 //Static task
@@ -134,13 +131,13 @@ gulp.task('gulp:image', gulp.series(['image']));
 //Default task
 gulp.task('default', gulp.series(['script', 'sass']))
 
-//Build task
-gulp.task('build', function(){
+//Serve task
+gulp.task('serve', function(){
 	browserSync.init({
 		server: "./dest",
 		port: 3000,
 		open: false,
-	})
+	});
 	gulp.watch('./src/components/**/*.js', gulp.series(['script']));
 	gulp.watch('./sass/**/*.scss', gulp.series(['sass']));
 	gulp.watch('./images/**/*.+(png|jpg|jpeg|gif|svg|ico)', gulp.series(['image']));
