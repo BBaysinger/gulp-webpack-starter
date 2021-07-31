@@ -46,6 +46,7 @@
     "gulp-sass-glob": "^1.1.0",
     "gulp-sourcemaps": "^3.0.0",
     "i": "^0.3.6",
+    "sass": "^1.36.0",
     "webpack-stream": "^6.1.2"
   }
 }

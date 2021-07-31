@@ -23,7 +23,8 @@ var gulp = require('gulp');
 const babel			= require('gulp-babel');
 const plumber		= require('gulp-plumber');
 const concat		= require('gulp-concat');
-const sass			= require('gulp-sass');
+const dartSass		= require('sass');
+const gulpSass		= require('gulp-sass');
 const notify		= require('gulp-notify');
 const sourcemaps	= require('gulp-sourcemaps');
 const sassGlob		= require('gulp-sass-glob');
@@ -37,7 +38,9 @@ const webpack 		= require('webpack-stream');
 const webpackconfig	= require('./webpack.config.js');
 
 //Set sass compiler
-sass.compiler = require('node-sass');
+// sass.compiler = require('node-sass');
+
+const sass = gulpSass( dartSass );
 
 //Task script
 gulp.task('script', function(done){

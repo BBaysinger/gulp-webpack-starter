@@ -1,4 +1,4 @@
-@import '**/*.scss' 
+@import "./sass/build/_variables.scss";
 
 body {
 	@include padding-horizontal(40px);
