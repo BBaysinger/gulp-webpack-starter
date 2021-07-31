@@ -85,7 +85,7 @@ gulp.task('sass', function(){
 		.pipe(notify({message: "Style task completed!"}))
 });
 
-//Task image
+//Image task
 gulp.task('image', function(){
 	return gulp.src(['./images/**/*.+(png|jpg|jpeg|gif|svg|ico)'], {since: gulp.lastRun('image')})
 		.pipe(plumber())
@@ -99,6 +99,28 @@ gulp.task('image', function(){
 		.pipe(browserSync.stream())
 		.pipe(notify({message: "Image task completed!"}))
 });
+
+//Static task
+gulp.task('static', function(){
+    var src = [];
+        src.push('static_pages/page/*.html');
+
+    var dist = 'dist/pages/static_pages';
+
+    return gulp.src(src)
+        .pipe(gulp.dest(dist));
+});
+
+//Clean dist task
+gulp.task('clean', function(){
+	return del('dist/**', {force:true});
+});
+
+//Clean dist task
+gulp.task('gulp:clean', gulp.series(['clean']));
+
+//Static task
+gulp.task('gulp:static', gulp.series(['static']));
 
 //Script task
 gulp.task('gulp:script', gulp.series(['script']));

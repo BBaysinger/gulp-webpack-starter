@@ -30,9 +30,7 @@
     "@babel/core": "^7.14.8",
     "@babel/preset-env": "^7.14.8",
     "gulp": "^4.0.2",
-    "uglifyjs-webpack-plugin": "^2.2.0"
-  },
-  "dependencies": {
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "babel-loader": "^8.2.2",
     "browser-sync": "^2.27.5",
     "gulp-autoprefixer": "^8.0.0",
@@ -48,5 +46,6 @@
     "i": "^0.3.6",
     "sass": "^1.36.0",
     "webpack-stream": "^6.1.2"
-  }
+  },
+  "dependencies": {}
 }
