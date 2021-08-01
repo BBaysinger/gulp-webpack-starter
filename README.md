@@ -4,6 +4,8 @@ I removed the 'dest' folder from versioning and added a 'static' directory to co
 
 Added some tasks and features. I'll need to update the documentation.
 
+TODO: Need to make sure the new Gulp tasks are accounted for with Browsersynch and hot reload.
+
 <p align="center">
 	<img height="257" width="114" src="https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png">
 	<img height="257" width="257" src="https://raw.githubusercontent.com/webpack/media/master/logo/icon.png">
