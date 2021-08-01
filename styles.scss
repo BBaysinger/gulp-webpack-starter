@@ -1,12 +1,8 @@
-@import "./sass/build/_variables.scss";
+@import './sass/**/*.scss';
 
 body {
 	@include padding-horizontal(40px);
 	@include padding-vertical(50px);
 
 	background: $white;
-}
-
-footer {
- 
 }

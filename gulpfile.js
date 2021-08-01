@@ -5,8 +5,7 @@
 var gulp = require('gulp');
 
 /**
-*Import gulp plugins
-* - gulp-babel (JS compiler)
+* Import gulp plugins
 * - gulp-plumber (prevent pipe breaking coused by errors from gulp plugins)
 * - gulp-concat (concatenate js files)
 * - gulp-sass (SASS compiler)
@@ -17,29 +16,31 @@ var gulp = require('gulp');
 * - cleanCSS (css optimizer)
 * - gulp-autoprefixer (add vendor prefixes to CSS rules)
 * - gulp-browser-sync (create external link for browsing)
-* - webpack-stream (adding webpack tehnology)
+* - webpack-stream (adding webpack technology)
 * - webpackconfig (webpack file with configuration)
 */
 const plumber		= require('gulp-plumber');
 const concat		= require('gulp-concat');
 const dartSass		= require('sass');
 const gulpSass		= require('gulp-sass');
-const notify		= require('gulp-notify');
 const sourcemaps	= require('gulp-sourcemaps');
 const sassGlob		= require('gulp-sass-glob');
 const imageMin		= require('gulp-imagemin');
 const cleanCSS		= require('gulp-clean-css');
 const autoprefixer	= require('gulp-autoprefixer');
 const browserSync	= require('browser-sync').create();
+const del 			= require('del');
+const notify		= require('gulp-notify');
+const notifier		= require('node-notifier');
 
-//Webpack config
+// Webpack config
 const webpack 		= require('webpack-stream');
 const webpackconfig	= require('./webpack.config.js');
 
-//Set sass compiler. TODO: Use Node-SASS (faster)
+// Set sass compiler. TODO: Use Node-SASS (faster)
 const sass = gulpSass( dartSass );
 
-//Task script
+// Task script
 gulp.task('script', function(done){
 	return gulp.src(['./src/components/main.js'], {since: gulp.lastRun('script')})
 		.pipe(plumber({
@@ -48,12 +49,16 @@ gulp.task('script', function(done){
 		.pipe(webpack(webpackconfig), webpack)
 		.pipe(gulp.dest('./dest/js'))
 		.pipe(browserSync.stream())
-		.pipe(notify({message: "JS task completed!"}))
+		// .pipe(notify({message: "JS task completed!"}))
 });
 
-//Task style
-gulp.task('sass', function(){
-	return gulp.src(['./sass/**/*.scss'], {since: gulp.lastRun('sass')})
+// Task style
+gulp.task('sass', function() {
+	// (BBaysinger) Putting style.scss in the `sass` directory gave an error with the update to SASS.
+	// I had to move it out of the folder. But having styles out at the root level is a
+	// paradigm I've worked with much in the past. It's a great default location for 
+	// global styles in systems where all the other SASS is encapsulated. 
+	return gulp.src(['./styles.scss', './sass/**/*.scss'], {since: gulp.lastRun('sass')})
 		.pipe(plumber({
 			errorHandler: notify.onError("Error: <%= error.message %>")
 		}))
@@ -79,10 +84,10 @@ gulp.task('sass', function(){
 		.pipe(concat('style.css'))
 		.pipe(gulp.dest('./dest/css'))
 		.pipe(browserSync.stream())
-		.pipe(notify({message: "Style task completed!"}))
+		// .pipe(notify({message: "Style task completed!"}))
 });
 
-//Image task
+// Image task
 gulp.task('image', function(){
 	return gulp.src(['./images/**/*.+(png|jpg|jpeg|gif|svg|ico)'], {since: gulp.lastRun('image')})
 		.pipe(plumber())
@@ -94,44 +99,51 @@ gulp.task('image', function(){
 		}))
 		.pipe(gulp.dest('./dest/images'))
 		.pipe(browserSync.stream())
-		.pipe(notify({message: "Image task completed!"}))
+		// .pipe(notify({message: "Image task completed!"}))
 });
 
-//Static task
+// Static task
 gulp.task('static', function(){
-    var src = [];
-        src.push('static_pages/page/*.html');
-
-    var dist = 'dist/pages/static_pages';
-
-    return gulp.src(src)
-        .pipe(gulp.dest(dist));
+    return gulp.src('./static/**/*')
+		// .pipe(notify({message: "Copying static files!"}))
+        .pipe(gulp.dest('dest'));
 });
 
-//Clean dist task
+// Clean dist task
 gulp.task('clean', function(){
-	return del('dist/**', {force:true});
+	return del('dest/**', {force:true});
 });
 
-//Clean 'dist' task
+// Notify that we're complete.
+gulp.task('finish', function(){
+	notifier.notify({ title: 'Build (default task).', message: 'Complete' });
+	return Promise.resolve('the value is ignored');
+});
+
+// Clean 'dist' task
 gulp.task('gulp:clean', gulp.series(['clean']));
 
-//Static task
+// Static task
 gulp.task('gulp:static', gulp.series(['static']));
 
-//Script task
+// Script task
 gulp.task('gulp:script', gulp.series(['script']));
 
-//SASS task
+// SASS task
 gulp.task('gulp:sass', gulp.series(['sass']));
 
-//Image task
+// Image task
 gulp.task('gulp:image', gulp.series(['image']));
 
-//Default task
-gulp.task('default', gulp.series(['script', 'sass']))
+// Image task
+gulp.task('gulp:finish', gulp.series(['finish']));
 
-//Serve task
+// Default task
+gulp.task('default', gulp.series(['clean', 'static', 'script', 'sass', 'image', 'finish']))
+
+// Serve task
+// (BBaysinger) I renamed the task previously named 'build' to 'serve', since that's what it does.
+// 'build' suggests more like what our default process is doing.
 gulp.task('serve', function(){
 	browserSync.init({
 		server: "./dest",
