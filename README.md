@@ -1,5 +1,7 @@
 Forked by BBaysinger mostly just to update dependencies and audit security issues.
 
+TODO: Some updates are necessary to keep this current.
+
 I removed the 'dest' folder from versioning and added a 'static' directory to copy static files from. This makes it easier to track the files.
 
 Added some tasks and features. I'll need to update the documentation.
@@ -54,6 +56,7 @@ The other way to to get starter project is by cloning Git repository, please fal
 - **Gulp script task** - gulp gulp:script (run script task)
 - **Gulp sass task** - gulp gulp:sass (run sass task)
 - **Gulp image task** - gulp gulp:image (run image task)
+- **Gulp serve task** - gulp gulp:serve Run the dev server
 
 ## Gulp plugins
 - gulp-babel (JS compiler)
